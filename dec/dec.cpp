@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿#include <cstring>
+#include <iostream>
 #include <fstream>
 #include <filesystem>
 #include "xxtea.h"
@@ -6,13 +7,13 @@
 void decryptFile(const std::string& filePath, const std::string& key, const std::string& outputPath) {
     std::ifstream inputFile(filePath, std::ios::binary);
     if (!inputFile) {
-        std::cout << "Failed to open file: " << filePath << std::endl;
+        std::cerr << "Error: Failed to open file: " << filePath << std::endl;
         return;
     }
 
     std::ofstream outputFile(outputPath, std::ios::binary);
     if (!outputFile) {
-        std::cout << "Failed to create output file: " << outputPath << std::endl;
+        std::cerr << "Error: Failed to create output file: " << outputPath << std::endl;
         return;
     }
 
@@ -20,8 +21,8 @@ void decryptFile(const std::string& filePath, const std::string& key, const std:
     size_t outlen = 0;
     char * decryptedContent = (char *)xxtea_decrypt((const void *)content.c_str(), content.size(),(const void *) key.c_str(), &outlen);
     if (outlen != strlen(decryptedContent)) {
-        std::cout << "Failed to decrypt file: " << filePath << std::endl;
-        return;
+        std::cerr << "Warning: Decrypted content is not plain text: " << filePath << std::endl;
+        // still write output
     }
 
     outputFile.write(decryptedContent, outlen);

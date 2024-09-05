@@ -6,13 +6,13 @@
 void encryptFile(const std::string& filePath, const std::string& key, const std::string& outputPath) {
     std::ifstream inputFile(filePath, std::ios::binary);
     if (!inputFile) {
-        std::cout << "Failed to open file: " << filePath << std::endl;
+        std::cerr << "Error: Failed to open file: " << filePath << std::endl;
         return;
     }
 
     std::ofstream outputFile(outputPath, std::ios::binary);
     if (!outputFile) {
-        std::cout << "Failed to create output file: " << outputPath << std::endl;
+        std::cerr << "Error: Failed to create output file: " << outputPath << std::endl;
         return;
     }
 
